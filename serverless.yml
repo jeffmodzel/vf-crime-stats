@@ -31,6 +31,7 @@ provider:
   environment:
     DEPLOY_DATA_BUCKET: ${self:custom.project.deployBucket}
     DEPLOY_DATA_FILE: ${self:custom.project.deployFile}
+    TABLE_OFFENSE_CODES: ${self:custom.project.tableOffenseCodes}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -40,6 +41,12 @@ provider:
       Action:
         - kms:Decrypt
       Resource: '*'
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - "Fn::GetAtt": [DynamoDBTableOffenseCodes, Arn]
+#'arn:aws:dynamodb:us-east-2:table:OFFENSE_CODES'
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:

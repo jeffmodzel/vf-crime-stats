@@ -15,6 +15,8 @@ aws lambda invoke --function-name vf-crime-stats-dev-load-data --payload '{ "buc
 
 aws lambda invoke --function-name vf-crime-stats-dev-load-data  output.json
 
+aws s3 cp ./data/sync/offense_codes.csv s3://vf-data-deploy-2608452/offense_codes.csv
+aws s3 rm s3://vf-data-deploy-2608452/offense_codes.csv
 
 "Version" : "2012-10-17",
 "Statement" : [
