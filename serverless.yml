@@ -147,8 +147,8 @@ resources:
           - AttributeName: OFFENSE_CODE
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
     S3BucketDeployData:
       Type: AWS::S3::Bucket
       Properties:

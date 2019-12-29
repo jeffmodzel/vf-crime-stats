@@ -1,58 +1,52 @@
 'use strict';
 const AWS = require('aws-sdk');
-const CSV = require('csvtojson');
 
-module.exports.handler = async event => {
-  console.log('in loadData.js handler...')
+module.exports.handler = event => {
 
-  let bucket = process.env.DEPLOY_DATA_BUCKET
-  let key = process.env.DEPLOY_DATA_FILE
+  const bucket = process.env.DEPLOY_DATA_BUCKET;
+  const key = process.env.DEPLOY_DATA_FILE;
+  const table = process.env.TABLE_OFFENSE_CODES;
 
-  const S3 = new AWS.S3()
+  if (bucket && key && table) {
+      console.log(`Getting ${key} from s3://${bucket}`);
+      console.log(`Using table ${table}`);
 
-  if (bucket && key) {
-      console.log(`Getting ${key} from s3://${bucket}`)
+      const S3 = new AWS.S3()
+      const DYNAMODB_CLIENT = new AWS.DynamoDB.DocumentClient();
+      const csv = require('csvtojson');
+      const stream = S3.getObject({Bucket: bucket, Key: key}).createReadStream();
 
-      // let data = await S3.getObject({
-      //   Bucket: bucket,
-      //   Key: key,
-      // }).promise();
-      //
-      // console.log("Raw CSV data:");
-      // console.log(data.Body.toString('utf-8'));
+      csv().fromStream(stream)
+        .on('data', async (row) => {
+          let jsonContent = JSON.parse(row);
+          let item = {
+              TableName: table,
+              Item:{
+                "OFFENSE_CODE": jsonContent["OFFENSE_CODE"],
+                "OFFENSE_TYPE_ID": jsonContent["OFFENSE_TYPE_ID"],
+                "OFFENSE_TYPE_NAME": jsonContent["OFFENSE_TYPE_NAME"],
+                "OFFENSE_CATEGORY_ID": jsonContent["OFFENSE_CATEGORY_ID"],
+                "OFFENSE_CATEGORY_NAME": jsonContent["OFFENSE_CATEGORY_NAME"],
+                "LAST_UPDATE": new Date().toISOString()
+              }
+          };
 
-      const stream = S3.getObject({Bucket: bucket, Key: key}).createReadStream()
-      csv().fromStream(s3Stream)
-           .on('data', (row) => {
-             let jsonContent = JSON.parse(row);
-             console.log(JSON.stringify(jsonContent));
-           });
-
+          DYNAMODB_CLIENT.put(item, function(err, data) {
+            if (err) {
+              console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+            }
+          });
+       });
   } else {
     return {
       statusCode: 500,
-      body: JSON.stringify(
-        {
-          message: 'Unable to find environment variables'
-        },
-        null,
-        2
-      ),
+      body: JSON.stringify({message: "Unable to find environment variables."})
     };
   }
 
   return {
     statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
-        input: event,
-      },
-      null,
-      2
-    ),
+    body: JSON.stringify({message: "Load table data lambda executed successfully."})
   };
 
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };

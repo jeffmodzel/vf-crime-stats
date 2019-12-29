@@ -1,0 +1,13 @@
+{
+  "name": "vf-crime-stats",
+  "description": "Crime stats demo with serverless",
+  "version": "0.0.1",
+  "author": "Jeff Modzel <jemod@yahoo.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeffmodzel/vf-crime-stats.git"
+  },
+  "dependencies": {
+    "csvtojson": "^2.0.10"
+  }
+}
