@@ -1,6 +1,17 @@
 # vf-crime-stats
 Demo of serverless framework using crime statistics from Denver, CO
 
+
+# Todo
+- write plugin for auto laoding
+- write S3 bucket upload to new table
+- write status /get
+
+# Dependencies
+Uses serverless-s3-deploy plugin found: https://github.com/funkybob/serverless-s3-deploy
+
+npm install --save-dev serverless-s3-deploy
+
 https://blogs.perficient.com/2018/12/21/populating-a-dynamodb-table-based-on-a-csv-file/
 
 

@@ -13,12 +13,22 @@
 
 service: vf-crime-stats
 
+plugins:
+  - serverless-s3-deploy
+
 custom:
   project:
     deployBucket: vf-data-deploy-2608452
     uploadBucket: vf-data-upload-2608452
     tableOffenseCodes: OFFENSE_CODES
     deployFile: offense_codes.csv
+  assets:
+    auto: true
+    targets:
+      - bucket: ${self:custom.project.deployBucket}
+        files:
+          - source: ./data/sync
+            globs: '**/*.csv'
 
 provider:
   name: aws
