@@ -37,4 +37,4 @@ serverless invoke --function-name load-data
 aws s3 cp ./data/sync/offense_codes.csv s3://vf-data-deploy-2608452/offense_codes.csv
 aws s3 rm s3://vf-data-deploy-2608452/offense_codes.csv
 
-aws s3 cp ./data/data_1.csv s3://vf-data-upload-2608452/data_1.csv
+aws s3 cp ./data/incidents_1.csv s3://vf-data-upload-2608452/incidents_1.csv
