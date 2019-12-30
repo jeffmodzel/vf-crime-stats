@@ -1,15 +1,7 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
 #
 # For full config options, check the docs:
 #    docs.serverless.com
 #
-# Happy Coding!
 
 service: vf-crime-stats
 
@@ -22,6 +14,7 @@ custom:
     deployBucket: vf-data-deploy-2608452
     uploadBucket: vf-data-upload-2608452
     tableOffenseCodes: OFFENSE_CODES
+    tableIncidents: INCIDENTS
     deployFile: offense_codes.csv
     functionToExecuteAfterDeploy: load-data
   assets:
@@ -157,6 +150,19 @@ resources:
             AttributeType: S
         KeySchema:
           - AttributeName: OFFENSE_CODE
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    DynamoDBTableIncidents:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.project.tableIncidents}
+        AttributeDefinitions:
+          - AttributeName: INCIDENT_ID
+            AttributeType: N
+        KeySchema:
+          - AttributeName: INCIDENT_ID
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 5

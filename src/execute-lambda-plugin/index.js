@@ -15,14 +15,7 @@ class ExecuteLambdaPlugin {
       }
     };
 
-    // this.commands = {
-    //   deploy: {
-    //     lifecycleEvents: ['resources', 'functions'],
-    //   },
-    // };
-
     this.hooks = {
-      'after:deploy:resources': this.afterDeployResources.bind(this),
       'after:deploy:finalize': this.afterDeployFinalize.bind(this),
       'after:executelambda:test': this.afterTest.bind(this),
     };
@@ -30,12 +23,17 @@ class ExecuteLambdaPlugin {
 
   afterTest() {
     this.options.debug = true;
-    this.serverless.cli.log(`Invoking labda ${this.options.functionObj.name}`);
+    this.invokeLambda();
+  }
+
+  afterDeployFinalize() {
     this.invokeLambda();
   }
 
   invokeLambda() {
     try {
+      this.serverless.cli.log(`Invoking labda ${this.options.functionObj.name}`);
+
       const params = {
         FunctionName: this.options.functionObj.name,
         InvocationType: 'RequestResponse',
@@ -54,14 +52,7 @@ class ExecuteLambdaPlugin {
       this.serverless.cli.log(err);
     }
   }
-
-  afterDeployResources() {
-    this.serverless.cli.log(' -- WE HAVE DEPLOYED RESOURCES --');
-  }
-
-  afterDeployFinalize() {
-    this.serverless.cli.log(' -- WE HAVE DEPLOYED Finalize --');
-  }
+  
 }
 
 module.exports = ExecuteLambdaPlugin;

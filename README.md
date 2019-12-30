@@ -3,12 +3,12 @@ Demo of serverless framework using crime statistics from Denver, CO
 
 
 # Todo
-- write plugin for auto laoding
 - write S3 bucket upload to new table
 - write status /get
 
 # Dependencies
 Uses serverless-s3-deploy plugin found: https://github.com/funkybob/serverless-s3-deploy
+USE csvtojson
 
 npm install --save-dev serverless-s3-deploy
 
