@@ -75,7 +75,30 @@ const getHtmlTemplateItem = () => {
   </html>
   `;
   return html.trim();
-}
+};
+
+const getHtmlTemplateItemNotFound = () => {
+  let html = `
+  <html>
+    <head>
+      <title>Incident Not Found</title>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"/>
+    </head>
+
+    <body>
+      <br>
+      <div class="container">
+        <div class="row">
+          <div class="two columns"></div>
+          <div class="eight columns"> <h1 align="center">Incident INCIDENT_ID not found.</h1></div>
+          <div class="two columns"></div>
+        </div>
+      </div>
+    </body>
+  </html>
+  `;
+  return html.trim();
+};
 
 const getHtmlTemplateBaseUrl = () => {
   let html = `
@@ -90,7 +113,7 @@ const getHtmlTemplateBaseUrl = () => {
       <div class="container">
         <div class="row">
           <div class="two columns"></div>
-          <div class="eight columns"> <h1 align="center">Incident Id: INCIDENT_ID </h1></div>
+          <div class="eight columns"> <h1 align="center">Please call url /incidents/{id} </h1></div>
           <div class="two columns"></div>
         </div>
       </div>
@@ -98,8 +121,8 @@ const getHtmlTemplateBaseUrl = () => {
   </html>
   `;
   return html.trim();
-
-}
+};
 
 module.exports.getHtmlTemplateItem = getHtmlTemplateItem;
 module.exports.getHtmlTemplateBaseUrl = getHtmlTemplateBaseUrl;
+module.exports.getHtmlTemplateItemNotFound = getHtmlTemplateItemNotFound;
