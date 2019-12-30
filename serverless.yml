@@ -37,11 +37,16 @@ provider:
     DEPLOY_DATA_BUCKET: ${self:custom.project.deployBucket}
     DEPLOY_DATA_FILE: ${self:custom.project.deployFile}
     TABLE_OFFENSE_CODES: ${self:custom.project.tableOffenseCodes}
+    TABLE_INCIDENTS: ${self:custom.project.tableIncidents}
   iamRoleStatements:
     - Effect: Allow
       Action:
         - s3:GetObject
       Resource: 'arn:aws:s3:::vf-data-deploy-2608452/*'
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+      Resource: 'arn:aws:s3:::vf-data-upload-2608452/*'
     - Effect: Allow
       Action:
         - kms:Decrypt
@@ -51,6 +56,12 @@ provider:
         - dynamodb:*
       Resource:
         - "Fn::GetAtt": [DynamoDBTableOffenseCodes, Arn]
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - "Fn::GetAtt": [DynamoDBTableIncidents, Arn]
+
 #'arn:aws:dynamodb:us-east-2:table:OFFENSE_CODES'
 
 # you can add statements to the Lambda function's IAM Role here
@@ -99,6 +110,14 @@ functions:
           path: /load
           method: get
     timeout: 30
+  file-upload:
+    description: Watches an S3 bucket to load dynamo from new csv files
+    handler: src/fileUpload.handler
+    events:
+      - s3:
+          bucket: ${self:custom.project.uploadBucket}
+          event: s3:ObjectCreated:*
+    timeout: 60
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -160,7 +179,7 @@ resources:
         TableName: ${self:custom.project.tableIncidents}
         AttributeDefinitions:
           - AttributeName: INCIDENT_ID
-            AttributeType: N
+            AttributeType: S
         KeySchema:
           - AttributeName: INCIDENT_ID
             KeyType: HASH

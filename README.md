@@ -4,7 +4,14 @@ Demo of serverless framework using crime statistics from Denver, CO
 
 # Todo
 - write S3 bucket upload to new table
+- remove http event from data load
 - write status /get
+
+# questions/things to do better
+breakup IAM permissions by lambda
+learn more about referencing things within serverless.yml
+use sub-yml files
+Dynamo field/column data types, more efficient hash/keys
 
 # Dependencies
 Uses serverless-s3-deploy plugin found: https://github.com/funkybob/serverless-s3-deploy
@@ -29,3 +36,5 @@ serverless invoke --function-name load-data
 
 aws s3 cp ./data/sync/offense_codes.csv s3://vf-data-deploy-2608452/offense_codes.csv
 aws s3 rm s3://vf-data-deploy-2608452/offense_codes.csv
+
+aws s3 cp ./data/data_1.csv s3://vf-data-upload-2608452/data_1.csv
