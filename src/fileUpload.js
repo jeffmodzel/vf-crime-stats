@@ -1,5 +1,8 @@
 'use strict';
 const AWS = require('aws-sdk');
+const S3 = new AWS.S3()
+const CSV = require('csvtojson');
+const DynamoHelper = require('./lib/dynamoHelper');
 
 //
 // This Lambda function waits for .csv files to be uploaded to an S3 bucket
@@ -20,11 +23,6 @@ function processEvent(event) {
   console.log('Processing event');
   console.log(JSON.stringify(event));
 
-  const S3 = new AWS.S3()
-  const DYNAMODB_CLIENT = new AWS.DynamoDB.DocumentClient();
-  const CSV = require('csvtojson');
-  const table = process.env.TABLE_INCIDENTS;
-
   event.Records.forEach( (item) => {
       let bucket = item.s3.bucket.name;
       let key = item.s3.object.key;
@@ -42,7 +40,7 @@ function processEvent(event) {
           let jsonContent = JSON.parse(row);
           //console.log(JSON.stringify(jsonContent));
           let item = {
-            TableName: table,
+            TableName: process.env.TABLE_INCIDENTS,
               Item:{
                 "INCIDENT_ID": jsonContent["INCIDENT_ID"],
                 "OFFENSE_ID": jsonContent["OFFENSE_ID"],
@@ -60,13 +58,7 @@ function processEvent(event) {
               }
           };
 
-          //console.log(item);
-
-          DYNAMODB_CLIENT.put(item, function(err, data) {
-            if (err) {
-              console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-            }
-          });
+          DynamoHelper.putItem(item);
 
         });
 
