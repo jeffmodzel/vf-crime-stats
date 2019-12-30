@@ -38,15 +38,7 @@ module.exports.handler = event => {
           });
        });
   } else {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({message: "Unable to find environment variables."})
-    };
+    console.error("Unable to find environment variables.");
   }
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({message: "Load table data lambda executed successfully."})
-  };
 
 };

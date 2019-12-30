@@ -6,6 +6,8 @@ Demo of serverless framework using crime statistics from Denver, CO
 - write S3 bucket upload to new table
 - remove http event from data load
 - write status /get
+- make diagram
+- populate "areas for improvment/future improvements"
 
 # questions/things to do better
 breakup IAM permissions by lambda

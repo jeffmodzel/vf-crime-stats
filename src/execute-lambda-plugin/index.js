@@ -1,5 +1,9 @@
 'use strict';
 
+//
+// This Sevverless plugin will execute a Lambda function after the stack has deployed.
+//
+
 class ExecuteLambdaPlugin {
   constructor(serverless, options) {
     this.serverless = serverless;
@@ -52,7 +56,7 @@ class ExecuteLambdaPlugin {
       this.serverless.cli.log(err);
     }
   }
-  
+
 }
 
 module.exports = ExecuteLambdaPlugin;

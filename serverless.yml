@@ -105,11 +105,11 @@ functions:
   load-data:
     description: Loads the offense code data
     handler: src/loadData.handler
-    events:
-      - http:
-          path: /load
-          method: get
-    timeout: 30
+    #events:
+    #  - http:
+    #      path: /load
+    #      method: get
+    #timeout: 30
   file-upload:
     description: Watches an S3 bucket to load dynamo from new csv files
     handler: src/fileUpload.handler
