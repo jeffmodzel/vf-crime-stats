@@ -25,6 +25,7 @@ aws lambda invoke --function-name vf-crime-stats-dev-load-data --payload '{ "buc
 
 
 aws lambda invoke --function-name vf-crime-stats-dev-load-data  output.json
+serverless invoke --function-name load-data
 
 aws s3 cp ./data/sync/offense_codes.csv s3://vf-data-deploy-2608452/offense_codes.csv
 aws s3 rm s3://vf-data-deploy-2608452/offense_codes.csv

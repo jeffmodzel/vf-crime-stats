@@ -15,6 +15,7 @@ service: vf-crime-stats
 
 plugins:
   - serverless-s3-deploy
+  - ./src/execute-lambda-plugin
 
 custom:
   project:
@@ -22,6 +23,7 @@ custom:
     uploadBucket: vf-data-upload-2608452
     tableOffenseCodes: OFFENSE_CODES
     deployFile: offense_codes.csv
+    functionToExecuteAfterDeploy: load-data
   assets:
     auto: true
     targets:
