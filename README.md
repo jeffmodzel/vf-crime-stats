@@ -1,13 +1,19 @@
 # vf-crime-stats
 Demo of serverless framework using crime statistics from Denver, CO
 
+# add diagram and use case explanation
+
+# enumerate the functionality
+- execute on deploy
+- execute when s3 upload
+- http get for a incident
 
 # Todo
 - write S3 bucket upload to new table
 - remove http event from data load
 - write status /get
 - make diagram
-- populate "areas for improvment/future improvements"
+- populate "areas for improvement/future improvements"
 
 # questions/things to do better
 breakup IAM permissions by lambda
@@ -28,6 +34,10 @@ https://blogs.perficient.com/2018/12/21/populating-a-dynamodb-table-based-on-a-c
 # invoke lambda from serverless
 https://github.com/serverless/serverless/blob/master/lib/plugins/aws/invoke/index.js
 
+Incident Ids:
+2016229783
+20166003953
+201872530
 
 aws lambda invoke --function-name vf-crime-stats-dev-load-data --payload '{ "name": "Bob" }' output.txt
 aws lambda invoke --function-name vf-crime-stats-dev-load-data --payload '{ "bucket" : "vf-data-deploy-2608452", "key" : "offense_codes.csv" }' output.json
