@@ -42,6 +42,10 @@ const getHtmlTemplateItem = () => {
               <td>OFFENSE_CODE</td>
             </tr>
             <tr>
+              <td><strong>Offense Description</strong></td>
+              <td>OFFENSE_DESC</td>
+            </tr>
+            <tr>
               <td><strong>Reported Date</strong></td>
               <td>REPORTED_DATE</td>
             </tr>

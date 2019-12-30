@@ -28,7 +28,37 @@ const getIncident = async (id) => {
       } else {
         resolve(data);
       }
+    });
 
+  });
+
+};
+
+const getOffense = async (code) => {
+  console.log("in getOffense()");
+  console.log(code);
+
+  return await new Promise((resolve, reject) => {
+
+    const params = {
+      Key: {
+        "OFFENSE_CODE": {
+          S: code
+        }
+      },
+      TableName: process.env.TABLE_OFFENSE_CODES
+    };
+
+    console.log(JSON.stringify(params));
+
+    DYNAMODB.getItem(params, (error, data) => {
+      if (error) {
+        console.log("Error in getOffense()");
+        console.error(JSON.stringify(error));
+        resolve({});
+      } else {
+        resolve(data);
+      }
     });
 
   });
@@ -36,3 +66,4 @@ const getIncident = async (id) => {
 };
 
 module.exports.getIncident = getIncident;
+module.exports.getOffense = getOffense;

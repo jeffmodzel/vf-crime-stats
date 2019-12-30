@@ -14,6 +14,7 @@ Demo of serverless framework using crime statistics from Denver, CO
 - write status /get
 - make diagram
 - populate "areas for improvement/future improvements"
+- add Denver xyz header/footer to template
 
 # questions/things to do better
 breakup IAM permissions by lambda
