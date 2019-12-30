@@ -53,3 +53,29 @@ aws s3 cp ./data/sync/offense_codes.csv s3://vf-data-deploy-2608452/offense_code
 aws s3 rm s3://vf-data-deploy-2608452/offense_codes.csv
 
 aws s3 cp ./data/incidents_1.csv s3://vf-data-upload-2608452/incidents_1.csv
+
+
+
+<iframe
+  width="300"
+  height="170"
+  frameborder="0"
+  scrolling="no"
+  marginheight="0"
+  marginwidth="0"
+  src="https://maps.google.com/maps?q='+YOUR_LAT+','+YOUR_LON+'&hl=es&z=14&amp;output=embed"
+ >
+ </iframe>
+ <br />
+ <small>
+   <a
+    href="https://maps.google.com/maps?q='+data.lat+','+data.lon+'&hl=es;z=14&amp;output=embed"
+    style="color:#0000FF;text-align:left"
+    target="_blank"
+   >
+     See map bigger
+   </a>
+ </small>
+
+
+<iframe src = "https://maps.google.com/maps?q=10.305385,77.923029&hl=es;z=14&amp;output=embed"></iframe>

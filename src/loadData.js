@@ -1,5 +1,13 @@
 'use strict';
 const AWS = require('aws-sdk');
+const S3 = new AWS.S3()
+const CSV = require('csvtojson');
+const DynamoHelper = require('./lib/dynamoHelper');
+
+//
+// This is a standalone Lambda (not connected to any event) intended to be
+// called directly. It loads a .csv from S3 into a Dynamo table.
+//
 
 module.exports.handler = event => {
 
@@ -11,12 +19,9 @@ module.exports.handler = event => {
       console.log(`Getting ${key} from s3://${bucket}`);
       console.log(`Using table ${table}`);
 
-      const S3 = new AWS.S3()
-      const DYNAMODB_CLIENT = new AWS.DynamoDB.DocumentClient();
-      const csv = require('csvtojson');
       const stream = S3.getObject({Bucket: bucket, Key: key}).createReadStream();
 
-      csv().fromStream(stream)
+      CSV().fromStream(stream)
         .on('data', async (row) => {
           let jsonContent = JSON.parse(row);
           let item = {
@@ -31,11 +36,8 @@ module.exports.handler = event => {
               }
           };
 
-          DYNAMODB_CLIENT.put(item, function(err, data) {
-            if (err) {
-              console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-            }
-          });
+          DynamoHelper.putItem(item);
+
        });
   } else {
     console.error("Unable to find environment variables.");

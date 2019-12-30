@@ -38,7 +38,6 @@ function processEvent(event) {
       CSV().fromStream(stream)
         .on('data', async (row) => {
           let jsonContent = JSON.parse(row);
-          //console.log(JSON.stringify(jsonContent));
           let item = {
             TableName: process.env.TABLE_INCIDENTS,
               Item:{
