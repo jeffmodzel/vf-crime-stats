@@ -107,6 +107,9 @@ functions:
     handler: src/getIncident.handler
     events:
       - http:
+          path: /incidents
+          method: get
+      - http:
           path: /incidents/{id}
           method: get
           request:

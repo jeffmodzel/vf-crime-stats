@@ -1,13 +1,14 @@
 'use strict';
 const AWS = require('aws-sdk');
 const DYNAMODB = new AWS.DynamoDB();
+const HtmlHelper = require('./lib/htmlHelpers');
 
 module.exports.handler = async event => {
 
   console.log(JSON.stringify(event));
   console.log(JSON.stringify(event.pathParameters));
 
-  let html = getBaseTemplate();
+  let html = HtmlHelper.getHtmlTemplateBaseUrl();
   let requestId = "";
 
   if (event && event.pathParameters && event.pathParameters.id) {
@@ -16,14 +17,18 @@ module.exports.handler = async event => {
   console.log(`Incoming requested Id is ${requestId}`);
 
   if (requestId) {
-      html = getHtmlTemplate();
+      html = HtmlHelper.getHtmlTemplateItem();
       let item = await getItemFromDynamo(requestId);
       if (item) {
-          let incident_id = item.Item.INCIDENT_ID;
-          console.log(incident_id);
-          console.log(item.Item.INCIDENT_ADDRESS);
           // update values in html template
           html = html.replace(/INCIDENT_ID/g,item.Item.INCIDENT_ID.S);
+          html = html.replace(/OFFENSE_ID/g,item.Item.OFFENSE_ID.S);
+          html = html.replace(/OFFENSE_CODE/g,item.Item.OFFENSE_CODE.S);
+          html = html.replace(/REPORTED_DATE/g,item.Item.REPORTED_DATE.S);
+          html = html.replace(/INCIDENT_ADDRESS/g,item.Item.INCIDENT_ADDRESS.S);
+          html = html.replace(/NEIGHBORHOOD_ID/g,item.Item.NEIGHBORHOOD_ID.S);
+          html = html.replace(/GEO_LAT/g,item.Item.GEO_LAT.S);
+          html = html.replace(/GEO_LON/g,item.Item.GEO_LON.S);
       }
   }
 
@@ -35,43 +40,6 @@ module.exports.handler = async event => {
 
 
 };
-
-function getHtmlTemplate() {
-  let html = `
-      <html>
-
-      <head>
-        <title>HTML from API Gateway/Lambda</title>
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"/>
-
-      </head>
-
-      <body><h1>Incident Id: INCIDENT_ID </h1></body>
-
-      INCIDENT_ID
-      </html>
-  `;
-  return html.trim();
-
-}
-
-function getBaseTemplate() {
-  let html = `
-      <html>
-
-      <head>
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"/>
-      </head>
-
-      <body><h1>
-      Missing request id
-      </h1></body>
-
-      </html>
-  `;
-  return html.trim();
-
-}
 
 async function getItemFromDynamo(id) {
   //return "getting this id: " + id;

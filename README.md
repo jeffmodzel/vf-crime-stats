@@ -20,6 +20,8 @@ breakup IAM permissions by lambda
 learn more about referencing things within serverless.yml
 use sub-yml files
 Dynamo field/column data types, more efficient hash/keys
+html templates could probably be made into s3 files
+more efficient string replaces in html templates
 
 # Dependencies
 Uses serverless-s3-deploy plugin found: https://github.com/funkybob/serverless-s3-deploy
