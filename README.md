@@ -3,13 +3,13 @@ Demo of serverless framework using crime statistics from Denver, CO
 
 # Use Case
 The purpose of this project is to demonstrate the use of the [serverless framework](https://serverless.com/) to build an AWS deployment that
-creates Lambda functions, S3 buckets, and Dynamo DB tables. As well as a serverless plugin that invokes a Lambda after the deployment, extracts data from a file in S3 and inserts that data into DynamoDB. In addition, there is an API Gateway endpoint to retrieve an HTML representation of the data and an S3 bucket that will accept new data and upload it to a Dynamo table.
+creates Lambda functions, S3 buckets, and Dynamo DB tables. As well as a serverless plugin that invokes a Lambda after the deployment, extracts data from a file in S3 and inserts that data into DynamoDB. In addition, there is an API Gateway endpoint to retrieve an HTML representation of the data and an S3 bucket that will accept new data and upload it to a DynamoDB table.
 
-In this particular project, we'll use crime reporting data from the city of Denver, CO. More information about the data used in this project can be found here -> [data/readme.md](data/readme.md).
+In this particular project, we'll use crime reporting data from the city of Denver, CO. More information about the data used in this project can be found here: [data/readme.md](data/readme.md).
 
 # Design
 ![](diagrams/vf-crime-stats.png)
-diagram omits CF/IAM plus whatever serverless does behind the scenes
+*Diagram omits IAM and CloudFormation, along with any other assets created automatically by serverless.*
 
 The serverless framework will create the following AWS service infrastructure:
 
@@ -37,8 +37,11 @@ my particular deploy is set to us-east-2
 - review all code for final cleanup and comments
 - review yml file
 
-# questions/things to do better
-breakup IAM permissions by lambda
+# Future Improvements
+This was my first attempt at a serverless project and there are likely some areas of improvement:
+
+- breakup IAM permissions by lambda
+
 learn more about referencing things within serverless.yml
 use sub-yml files
 Dynamo field/column data types, more efficient hash/keys
