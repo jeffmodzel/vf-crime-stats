@@ -10,7 +10,6 @@ const getHtmlTemplateItem = () => {
   <head>
     <title>HTML from API Gateway/Lambda</title>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"/>
-
   </head>
 
   <body>
@@ -37,7 +36,6 @@ const getHtmlTemplateItem = () => {
       <div class="eight columns"> <h1 align="center">Incident Id: INCIDENT_ID </h1></div>
       <div class="two columns"></div>
     </div>
-
 
     <div class="row">
       <div class="two columns"></div>

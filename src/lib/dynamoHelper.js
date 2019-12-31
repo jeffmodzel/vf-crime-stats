@@ -6,9 +6,8 @@ const DYNAMODB_CLIENT = new AWS.DynamoDB.DocumentClient();
 // Helper lib of DynamoDB functions
 //
 const putItem = (item) => {
-  console.log("in putItem()");
-  console.log(item);
-  
+  //console.log(item);
+
   DYNAMODB_CLIENT.put(item, function(err, data) {
     if (err) {
       console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
@@ -47,8 +46,6 @@ const getIncident = async (id) => {
 };
 
 const getOffense = async (code) => {
-  console.log("in getOffense()");
-  console.log(code);
 
   return await new Promise((resolve, reject) => {
 

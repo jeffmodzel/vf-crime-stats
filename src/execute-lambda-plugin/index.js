@@ -1,7 +1,7 @@
 'use strict';
 
 //
-// This Sevverless plugin will execute a Lambda function after the stack has deployed.
+// This Serverless plugin will execute a Lambda function after the stack has deployed.
 //
 
 class ExecuteLambdaPlugin {

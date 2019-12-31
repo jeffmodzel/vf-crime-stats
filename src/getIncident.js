@@ -2,6 +2,11 @@
 const HtmlHelper = require('./lib/htmlHelper');
 const DynamoHelper = require('./lib/dynamoHelper');
 
+//
+// This Lambda responds to an HTTP request for a specific incident id
+// and returns Html content.
+//
+
 module.exports.handler = async event => {
 
   //console.log(JSON.stringify(event));
