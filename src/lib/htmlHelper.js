@@ -15,18 +15,30 @@ const getHtmlTemplateItem = () => {
 
   <body>
     <br>
+
     <div class="container">
+
+    <div class="row">
+      <div class="two columns"></div>
+      <div class="eight columns"><h2 align="center">Denver Police Department </h2>
+    <h4 align="center">City and County of Denver, CO</h4>
+      </div>
+      <div class="two columns"></div>
+    </div>
+
+    <div class="row">
+      <div class="two columns"></div>
+      <div class="eight columns"> <hr/></div>
+      <div class="two columns"></div>
+    </div>
+
     <div class="row">
       <div class="two columns"></div>
       <div class="eight columns"> <h1 align="center">Incident Id: INCIDENT_ID </h1></div>
       <div class="two columns"></div>
     </div>
-    </div>
 
-    <br>
-    <div class="container">
 
-    <!-- columns should be the immediate child of a .row -->
     <div class="row">
       <div class="two columns"></div>
       <div class="eight columns">
@@ -70,10 +82,13 @@ const getHtmlTemplateItem = () => {
 
       </div>
       <div class="two columns"></div>
-
     </div>
 
+    HTML_MAP_SNIPPET
+
   </div>
+
+  <br><br>
 
   </body>
   </html>
@@ -92,6 +107,21 @@ const getHtmlTemplateItemNotFound = () => {
     <body>
       <br>
       <div class="container">
+
+      <div class="row">
+        <div class="two columns"></div>
+        <div class="eight columns"><h2 align="center">Denver Police Department </h2>
+      <h4 align="center">City and County of Denver, CO</h4>
+        </div>
+        <div class="two columns"></div>
+      </div>
+
+      <div class="row">
+        <div class="two columns"></div>
+        <div class="eight columns"> <hr/></div>
+        <div class="two columns"></div>
+      </div>
+
         <div class="row">
           <div class="two columns"></div>
           <div class="eight columns"> <h1 align="center">Incident INCIDENT_ID not found.</h1></div>
@@ -115,6 +145,21 @@ const getHtmlTemplateBaseUrl = () => {
     <body>
       <br>
       <div class="container">
+
+      <div class="row">
+        <div class="two columns"></div>
+        <div class="eight columns"><h2 align="center">Denver Police Department </h2>
+      <h4 align="center">City and County of Denver, CO</h4>
+        </div>
+        <div class="two columns"></div>
+      </div>
+
+      <div class="row">
+        <div class="two columns"></div>
+        <div class="eight columns"> <hr/></div>
+        <div class="two columns"></div>
+      </div>
+
         <div class="row">
           <div class="two columns"></div>
           <div class="eight columns"> <h1 align="center">Please call url /incidents/{id} </h1></div>
@@ -127,6 +172,26 @@ const getHtmlTemplateBaseUrl = () => {
   return html.trim();
 };
 
+const getHtmlMapSnippet = (latitude, longitude) => {
+  console.log(`getHtmlMapSnippet() ${latitude} ${longitude}`);
+
+  let html = `
+  <div class="row">
+    <div class="two columns"></div>
+    <div class="eight columns">
+      <br>
+      <h2>Incident Location</h2>
+      <iframe width="700" height="700" src = "https://maps.google.com/maps?q=LATITUDE,LONGITUDE&hl=en;z=14&amp;output=embed"></iframe>
+    </div>
+    <div class="two columns"></div>
+  </div>
+  `;
+  html = html.replace(/LATITUDE/g,latitude);
+  html = html.replace(/LONGITUDE/g,longitude);
+  return html.trim();
+};
+
 module.exports.getHtmlTemplateItem = getHtmlTemplateItem;
 module.exports.getHtmlTemplateBaseUrl = getHtmlTemplateBaseUrl;
 module.exports.getHtmlTemplateItemNotFound = getHtmlTemplateItemNotFound;
+module.exports.getHtmlMapSnippet = getHtmlMapSnippet;

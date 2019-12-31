@@ -30,6 +30,13 @@ module.exports.handler = async event => {
         html = html.replace(/GEO_LAT/g,incident.Item.GEO_LAT.S);
         html = html.replace(/GEO_LON/g,incident.Item.GEO_LON.S);
 
+        // get map html
+        let mapHtml = "";
+        if (incident.Item.GEO_LAT && incident.Item.GEO_LON) {
+          mapHtml = HtmlHelper.getHtmlMapSnippet(incident.Item.GEO_LAT.S,incident.Item.GEO_LON.S);
+        }
+        html = html.replace(/HTML_MAP_SNIPPET/g,mapHtml);
+
         // find offense metadata if available
         let desc = "";
         let offense = await DynamoHelper.getOffense(incident.Item.OFFENSE_CODE.S);

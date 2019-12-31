@@ -9,12 +9,11 @@ Demo of serverless framework using crime statistics from Denver, CO
 - http get for a incident
 
 # Todo
-- write S3 bucket upload to new table
-- remove http event from data load
-- write status /get
 - make diagram
 - populate "areas for improvement/future improvements"
 - add Denver xyz header/footer to template
+- create 3rd data file
+
 
 # questions/things to do better
 breakup IAM permissions by lambda
