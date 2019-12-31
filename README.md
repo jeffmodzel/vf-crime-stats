@@ -7,16 +7,23 @@ creates Lambda functions, S3 buckets, and Dynamo DB tables. As well as a serverl
 
 In this particular project, we'll use crime reporting data from the city of Denver, CO. More information about the data used in this project can be found here -> [data/readme.md](data/readme.md).
 
+# Design
+![](diagrams/vf-crime-stats.png)
+diagram omits CF/IAM plus whatever serverless does behind the scenes
 
-link servless framework
-Using crime stats, blah balh
-link to other data.md
+The serverless framework will create the following AWS service infrastructure:
 
-`
-sdfgsdf
-`
-#diagram
-# enumerate the functionality
+- Three Lambda functions (load-data, file-upload and  get-incident)
+- Two DynamoDB tables (INCIDENTS and OFFENSES)
+- Two S3 buckets (data-deploy and data-upload)
+- API Gateway endpoint(s) (/incidents and /incidents/{id})
+- IAM and CloudFormation assets automatically created by serverless
+
+Upon a `serverless deploy`
+my particular deploy is set to us-east-2
+
+
+# Functionality
 - execute on deploy
 - execute when s3 upload
 - http get for a incident
