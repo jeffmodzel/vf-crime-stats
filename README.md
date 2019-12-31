@@ -19,27 +19,23 @@ The serverless framework will create the following AWS service infrastructure:
 - API Gateway endpoint(s) (/incidents and /incidents/{id})
 - IAM and CloudFormation assets automatically created by serverless
 
-Note - the actual names of the deployed infrastructure can change depending on blah blah.
+*Note - The actual names of the deployed infrastructure can change depending on how serverless is configured. Names may be prefixed or suffixed with values in serverless.*
 
 
 # Functionality
 Upon a `serverless deploy` the following will happen:
 - serverless will deploy all the defined assets to AWS. This particular deployment is set to deploy to us-east-2 region.
-- After deployment, serverless will use the external plugin `serverless-s3-deploy` to copy all the .csv files in the `data/sync` folder to S3 bucket data-deploy. For this project that is only offense_codes.csv.
-- Next, serverless will execute the custom plugin `execute-lambda-plugin` (written for this project). This plugin executes the load-data Lambda function which reads the offense_codes.csv from the S3 bucket and loads the DynamoDB table OFFENSES.
+- After deployment, serverless will use the external plugin `serverless-s3-deploy` to copy all the .csv files in the `data/sync` folder to S3 bucket `data-deploy`. For this project that is only `offense_codes.csv`.
+- Next, serverless will execute the custom plugin `execute-lambda-plugin` (written for this project). This plugin executes the `load-data` Lambda function which reads the `offense_codes.csv` from the S3 bucket and loads the DynamoDB table OFFENSES.
 
-After the project has been deployed, incident data files need to be manually uploaded to the S3 bucket data-upload. This can be done in the AWS console or with the AWS CLI (aws s3 cp ./data/sync/offense_codes.csv s3://data-deploy/offense_codes.csv). When a new data file is uploaded to that bucket, the Lambda file-upload will automatically execute and load the DynamoDB table INCIDENTS.
+After the project has been deployed, incident data files need to be manually uploaded to the S3 bucket `data-upload`. This can be done in the AWS console or with the AWS CLI (`aws s3 cp ./data/sync/offense_codes.csv s3://data-deploy/offense_codes.csv`). When a new data file is uploaded to that bucket, the Lambda `file-upload` will automatically execute and load the DynamoDB table INCIDENTS. In this project the data files can be found in the `data` folder (incidents_1.csv, incidents_2.csv and incidents_3.csv).
 
 After incident files are uploaded, a user may browse to http://{base_url}/incidents or http://{base_url}/incidents/{id}. This will display an HTML page with details of the specific incident including a Google Map (based upon the latitude and longitude of the specific incident).
-Note the base url will change with every deploy, so check the output from serverless.
 
 ![](diagrams/screenshot.png)
 
 
 # Todo
-- make diagram
-- populate "areas for improvement/future improvements"
-- add Denver xyz header/footer to template
 - create 3rd data file
 - remove template html and all other non-essential files
 - review all code for final cleanup and comments
