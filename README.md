@@ -2,10 +2,10 @@
 Demo of serverless framework using crime statistics from Denver, CO
 
 # Use Case
-The purpose of this project is to demonstrate the use of the serverless framework to build an AWS deployment that
-creates Lambda functions, S3 buckets, and Dynamo DB tables. As well as a serverless plugin that invokes a Lambda after the deployment, extracts data from a file in S3 and inserts that data into DynamoDB. In addition, there is an API Gateway endpoint deployed to retrieve HTML representation of the data.
+The purpose of this project is to demonstrate the use of the [serverless framework](https://serverless.com/) to build an AWS deployment that
+creates Lambda functions, S3 buckets, and Dynamo DB tables. As well as a serverless plugin that invokes a Lambda after the deployment, extracts data from a file in S3 and inserts that data into DynamoDB. In addition, there is an API Gateway endpoint to retrieve an HTML representation of the data and an S3 bucket that will accept new data and upload it to a Dynamo table.
 
-In this particular project, we'll use crime reporting data from the city of Denver, CO. More information about the data used in this project can be found [here](data/readme.md) 
+In this particular project, we'll use crime reporting data from the city of Denver, CO. More information about the data used in this project can be found here -> [data/readme.md](data/readme.md).
 
 
 link servless framework
