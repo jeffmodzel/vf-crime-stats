@@ -28,57 +28,37 @@ Upon a `serverless deploy` the following will happen:
 - After deployment, serverless will use the external plugin `serverless-s3-deploy` to copy all the .csv files in the `data/sync` folder to S3 bucket `data-deploy`. For this project that is only `offense_codes.csv`.
 - Next, serverless will execute the custom plugin `execute-lambda-plugin` (written for this project). This plugin executes the `load-data` Lambda function which reads the `offense_codes.csv` from the S3 bucket and loads the DynamoDB table OFFENSES.
 
-After the project has been deployed, incident data files need to be manually uploaded to the S3 bucket `data-upload`. This can be done in the AWS console or with the AWS CLI (`aws s3 cp ./data/sync/offense_codes.csv s3://data-deploy/offense_codes.csv`). When a new data file is uploaded to that bucket, the Lambda `file-upload` will automatically execute and load the DynamoDB table INCIDENTS. In this project the data files can be found in the `data` folder (incidents_1.csv, incidents_2.csv and incidents_3.csv).
+After the project has been deployed, incident data files need to be manually uploaded to the S3 bucket `data-upload`. This can be done in the AWS console or with the AWS CLI (`aws s3 cp ./data/incidents_1.csv s3://data-upload/incidents_1.csv`). When a new data file is uploaded to that bucket, the Lambda `file-upload` will automatically execute and load the DynamoDB table INCIDENTS. In this project the data files can be found in the `data` folder (incidents_1.csv, incidents_2.csv and incidents_3.csv).
 
-After incident files are uploaded, a user may browse to http://{base_url}/incidents or http://{base_url}/incidents/{id}. This will display an HTML page with details of the specific incident including a Google Map (based upon the latitude and longitude of the specific incident).
+After incident files are uploaded, a user may browse to `http://{base_url}/incidents` or `http://{base_url}/incidents/{id}`. This will display an HTML page with details of the specific incident including a Google Map (based upon the latitude and longitude of the specific incident).
 
+Browser screenshot:
 ![](diagrams/screenshot.png)
 
+# Dependencies
+This project has two external dependencies - **serverless-s3-deploy** and **csvtojson**. Both are referenced in the project's package.json.
 
-# Todo
-- create 3rd data file
-- remove template html and all other non-essential files
-- review all code for final cleanup and comments
-- review yml file
+`
+npm install serverless-s3-deploy
+`
+
+`
+npm install csvtojson
+`
+
+The **serverless-s3-deploy** dependency is a serverless plugin that only needs to run locally (not uploaded to AWS as part of the assets). This plugin is what automatically copies data files to S3 after deployment. More information
+[here](https://github.com/funkybob/serverless-s3-deploy).
+
+The **csvtojson** dependency is used by the Lambda functions to ease the reading of .csv files. More information
+[here](https://github.com/Keyang/node-csvtojson).
 
 # Future Improvements
-This was my first attempt at a serverless project and there are likely some areas of improvement:
+This was a first attempt at a serverless project and there are likely some areas of improvement:
 
-- breakup IAM permissions by lambda
-
-learn more about referencing things within serverless.yml
-use sub-yml files
-Dynamo field/column data types, more efficient hash/keys
-html templates could probably be made into s3 files
-more efficient string replaces in html templates
-implement a "get all" for the root
-
-# Dependencies
-Uses serverless-s3-deploy plugin found: https://github.com/funkybob/serverless-s3-deploy
-USE csvtojson
-
-npm install --save-dev serverless-s3-deploy
-
-https://blogs.perficient.com/2018/12/21/populating-a-dynamodb-table-based-on-a-csv-file/
-
-
-
-# invoke lambda from serverless
-https://github.com/serverless/serverless/blob/master/lib/plugins/aws/invoke/index.js
-
-Incident Ids:
-2016229783
-20166003953
-201872530
-
-aws lambda invoke --function-name vf-crime-stats-dev-load-data --payload '{ "name": "Bob" }' output.txt
-aws lambda invoke --function-name vf-crime-stats-dev-load-data --payload '{ "bucket" : "vf-data-deploy-2608452", "key" : "offense_codes.csv" }' output.json
-
-
-aws lambda invoke --function-name vf-crime-stats-dev-load-data  output.json
-serverless invoke --function-name load-data
-
-aws s3 cp ./data/sync/offense_codes.csv s3://vf-data-deploy-2608452/offense_codes.csv
-aws s3 rm s3://vf-data-deploy-2608452/offense_codes.csv
-
-aws s3 cp ./data/incidents_1.csv s3://vf-data-upload-2608452/incidents_1.csv
+- In `serverless.yml`, multiple methods of referencing variables/values are used. Should explore standardizing, investigate best practices. Possibly use seprate .yml files for different pieces of the overall project.
+- In `serverless.yml`, IAM permissions and environment variables are defined globally for the project. Ideally these would be applied to individual functions as required.
+- Some of the IAM permissions could be more fine-grained. *Note - spent alot of time messing with permissions and arrived at what worked.*
+- DynamoDB table structure is relatively simple (based upon the simplicity of data file structure(s)). Possible improvements with hash/sort keys and indexes.
+- The html template content in `src/lib/htmlHelper.js` could likely move elsewhere, like S3, so that templates could be updated independently of the Lambda code.
+- In `src/getIncident.js`, there might be more efficient ways of replacing content in html template strings - something better than string.replace(a,b)?
+- Need to implement a "get all" at the /incidents root endpoint. Right now, calling /incidents displays a generic page. Calling /incidents/{id} requires the end user to know the actual id.
