@@ -19,8 +19,8 @@ module.exports.handler = event => {
 
 };
 
-function processEvent(event) {
-  console.log('Processing event');
+const processEvent = (event) => {
+  console.log('processEvent()');
   console.log(JSON.stringify(event));
 
   event.Records.forEach( (item) => {
@@ -62,5 +62,4 @@ function processEvent(event) {
         });
 
   });
-
-}
+};

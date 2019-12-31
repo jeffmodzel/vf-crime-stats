@@ -6,7 +6,6 @@ const DYNAMODB_CLIENT = new AWS.DynamoDB.DocumentClient();
 // Helper lib of DynamoDB functions
 //
 const putItem = (item) => {
-  //console.log(item);
 
   DYNAMODB_CLIENT.put(item, function(err, data) {
     if (err) {
@@ -74,6 +73,31 @@ const getOffense = async (code) => {
 
 };
 
+const getFirstNIncidents = async (n) => {
+  return await new Promise((resolve, reject) => {
+
+    const params = {
+      ProjectionExpression: 'INCIDENT_ID, REPORTED_DATE, INCIDENT_ADDRESS',
+      TableName: process.env.TABLE_INCIDENTS,
+      Limit: n
+    };
+
+    console.log(JSON.stringify(params));
+
+    DYNAMODB.scan(params, (error, data) => {
+      if (error) {
+        console.log("Error in getFirstNIncidents()");
+        console.error(JSON.stringify(error));
+        resolve({});
+      } else {
+        resolve(data);
+      }
+    });
+
+  });
+}
+
 module.exports.getIncident = getIncident;
 module.exports.getOffense = getOffense;
+module.exports.getFirstNIncidents = getFirstNIncidents;
 module.exports.putItem = putItem;

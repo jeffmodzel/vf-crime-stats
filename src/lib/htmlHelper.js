@@ -8,7 +8,6 @@ const getHtmlTemplateItem = () => {
   <html>
 
   <head>
-    <title>HTML from API Gateway/Lambda</title>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"/>
   </head>
 
@@ -27,13 +26,13 @@ const getHtmlTemplateItem = () => {
 
     <div class="row">
       <div class="two columns"></div>
-      <div class="eight columns"> <hr/></div>
+      <div class="eight columns"><hr/></div>
       <div class="two columns"></div>
     </div>
 
     <div class="row">
       <div class="two columns"></div>
-      <div class="eight columns"> <h1 align="center">Incident Id: INCIDENT_ID </h1></div>
+      <div class="eight columns"><h1 align="center">Incident Id: INCIDENT_ID</h1></div>
       <div class="two columns"></div>
     </div>
 
@@ -98,7 +97,6 @@ const getHtmlTemplateItemNotFound = () => {
   let html = `
   <html>
     <head>
-      <title>Incident Not Found</title>
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"/>
     </head>
 
@@ -116,13 +114,13 @@ const getHtmlTemplateItemNotFound = () => {
 
       <div class="row">
         <div class="two columns"></div>
-        <div class="eight columns"> <hr/></div>
+        <div class="eight columns"><hr/></div>
         <div class="two columns"></div>
       </div>
 
         <div class="row">
           <div class="two columns"></div>
-          <div class="eight columns"> <h1 align="center">Incident INCIDENT_ID not found.</h1></div>
+          <div class="eight columns"><h1 align="center">Incident INCIDENT_ID not found.</h1></div>
           <div class="two columns"></div>
         </div>
       </div>
@@ -132,11 +130,10 @@ const getHtmlTemplateItemNotFound = () => {
   return html.trim();
 };
 
-const getHtmlTemplateBaseUrl = () => {
+const getHtmlTemplateDefault = () => {
   let html = `
   <html>
     <head>
-      <title>HTML from API Gateway/Lambda</title>
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"/>
     </head>
 
@@ -160,9 +157,22 @@ const getHtmlTemplateBaseUrl = () => {
 
         <div class="row">
           <div class="two columns"></div>
-          <div class="eight columns"> <h1 align="center">Please call url /incidents/{id} </h1></div>
+          <div class="eight columns"><h1 align="center">Please call url /incidents/{id}</h1></div>
           <div class="two columns"></div>
         </div>
+
+        <div class="row">
+          <div class="two columns"></div>
+          <div class="eight columns"><hr/></div>
+          <div class="two columns"></div>
+        </div>
+
+          <div class="row">
+            <div class="two columns"></div>
+            <div class="eight columns"><h2 align="center">No incidents available</h2></div>
+            <div class="two columns"></div>
+          </div>
+
       </div>
     </body>
   </html>
@@ -189,7 +199,86 @@ const getHtmlMapSnippet = (latitude, longitude) => {
   return html.trim();
 };
 
+const getHtmlRowSnippet = (id,reported,address,url) => {
+  console.log(`getHtmlRowSnippet() ${id} ${reported} ${address} ${url}`);
+
+  let link = '<a href="URL" target="_blank">ID</a>';
+  link = link.replace(/ID/g,id);
+  link = link.replace(/URL/g,url + "/" + id);
+
+  let html = `
+  <tr>
+    <td>ID</td>
+    <td>REPORTED</td>
+    <td>ADDRESS</td>
+  </tr>
+  `;
+  html = html.replace(/ID/g,link);
+  html = html.replace(/REPORTED/g,reported);
+  html = html.replace(/ADDRESS/g,address);
+  return html.trim();
+};
+
+const getHtmlTemplateNItems = () => {
+  let html = `
+  <html>
+    <head>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"/>
+    </head>
+
+    <body>
+      <br>
+      <div class="container">
+
+      <div class="row">
+        <div class="two columns"></div>
+        <div class="eight columns"><h2 align="center">Denver Police Department </h2>
+      <h4 align="center">City and County of Denver, CO</h4>
+        </div>
+        <div class="two columns"></div>
+      </div>
+
+      <div class="row">
+        <div class="two columns"></div>
+        <div class="eight columns"><hr/></div>
+        <div class="two columns"></div>
+      </div>
+
+      <div class="row">
+        <div class="two columns"></div>
+        <div class="eight columns">
+
+          <table class="u-full-width">
+            <thead>
+              <tr>
+                <th>Incident Id</th>
+                <th>Reported Date</th>
+                <th>Address</th>
+              </tr>
+
+            <tbody>
+
+              TABLEROWS
+
+            </tbody>
+
+          </table>
+
+        </div>
+        <div class="two columns"></div>
+      </div>
+
+      </div>
+    </body>
+  </html>
+  `;
+
+  return html.trim();
+};
+
 module.exports.getHtmlTemplateItem = getHtmlTemplateItem;
-module.exports.getHtmlTemplateBaseUrl = getHtmlTemplateBaseUrl;
+module.exports.getHtmlTemplateDefault = getHtmlTemplateDefault;
 module.exports.getHtmlTemplateItemNotFound = getHtmlTemplateItemNotFound;
 module.exports.getHtmlMapSnippet = getHtmlMapSnippet;
+module.exports.getHtmlRowSnippet = getHtmlRowSnippet;
+module.exports.getHtmlTemplateNItems = getHtmlTemplateNItems;
