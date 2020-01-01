@@ -1,4 +1,3 @@
-
 # vf-crime-stats
 Demo of serverless framework using crime statistics from Denver, CO
 
@@ -63,4 +62,3 @@ This was a first attempt at a serverless project and there are likely some areas
 - DynamoDB table structure is relatively simple (based upon the simplicity of data file structure). Possible improvements with hash/sort keys and indexes.
 - The html template content in `src/lib/htmlHelper.js` could likely move elsewhere, like S3, so that templates could be updated independently of the Lambda code.
 - In `src/getIncident.js`, there might be more efficient ways of replacing content in html template strings - something better than string.replace(a,b)?
-- Need to implement a "get all" at the /incidents root endpoint. Right now, calling /incidents displays a generic page. Calling /incidents/{id} requires the end user to know the actual id.
